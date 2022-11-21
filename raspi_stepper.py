@@ -25,20 +25,22 @@ def initialize(direction):
 def rotate_motor(angle):
     global curr_angle
     angle_diff = angle - curr_angle
-    steps = abs(angle_diff) * 1.8
+    steps = int(abs(angle_diff) * 0.55556)
     direction = 0 if angle_diff < 0 else 1
     initialize(direction)
+    print(steps)
     delay = .0208
-    x = 0
-    while x <= steps:
+    for x in range(steps):
         GPIO.output(STEP, GPIO.HIGH)
         sleep(delay)
         GPIO.output(STEP, GPIO.LOW)
         sleep(delay)
-        x += 0.1
+        x += 1
     curr_angle = angle
     GPIO.cleanup()
 
-rotate_motor(50)
+rotate_motor(270)
+sleep(1)
 rotate_motor(200)
-rotate_motor(150)
+sleep(1)
+rotate_motor(90)

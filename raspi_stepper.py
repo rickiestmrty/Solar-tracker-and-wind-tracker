@@ -29,11 +29,13 @@ def rotate_motor(angle):
     direction = 0 if angle_diff < 0 else 1
     initialize(direction)
     delay = .0208
-    for x in range(steps):
+    x = 0
+    while x <= steps:
         GPIO.output(STEP, GPIO.HIGH)
         sleep(delay)
         GPIO.output(STEP, GPIO.LOW)
         sleep(delay)
+        x += 0.1
     curr_angle = angle
     GPIO.cleanup()
 

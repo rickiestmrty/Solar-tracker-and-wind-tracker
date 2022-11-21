@@ -3,14 +3,14 @@ import RPi.GPIO as GPIO
 
 DIR = 20                # Direction GPIO Pin
 STEP = 21               # Step GPIO Pin
-SPR = 48                # Steps per Revolution (360 / 7.5)
+SPR = 200                # Steps per Revolution (360 / 1.8)
 curr_step = 0           # Current position
 
-def initialize():
+def initialize(direction):
     GPIO.setmode(GPIO.BCM)
     GPIO.setup(DIR, GPIO.OUT)
     GPIO.setup(STEP, GPIO.OUT)
-    GPIO.output(DIR, 0)
+    GPIO.output(DIR,direction)
 
     MODE = (14, 15, 18)   # Microstep Resolution GPIO Pins
     GPIO.setup(MODE, GPIO.OUT)
@@ -23,7 +23,8 @@ def initialize():
     GPIO.output(MODE, RESOLUTION['Full'])
 
 def rotate_motor(steps, direction):
-    GPIO.output(DIR, direction)
+    global curr_step
+    initialize(direction)
     delay = .0208
     for x in range(steps):
         GPIO.output(STEP, GPIO.HIGH)
@@ -31,13 +32,15 @@ def rotate_motor(steps, direction):
         GPIO.output(STEP, GPIO.LOW)
         sleep(delay)
         curr_step += 1
-        if curr_step > 48:
+        '''
+        if curr_step > 200:
             curr_step = 0
-            rotate_motor(48, direction^1)
-            GPIO.output(DIR, direction)
-            curr_step = 0
+            rotate_motor(200, direction^1)
+            initialize(direction)
+            curr_step = 0'''
 
     GPIO.cleanup()
 
-initialize()
-rotate_motor(4, 1)
+rotate_motor(200, 1)
+rotate_motor(200, 0)
+rotate_motor(200, 1)

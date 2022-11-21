@@ -1,2 +1,4 @@
 # Solar-tracker-and-wind-tracker
-Thesis 
+This is our college thesis wherein we use Raspberry Pi 3b+
+
+

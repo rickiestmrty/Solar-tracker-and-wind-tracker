@@ -28,7 +28,7 @@ class SunCalc:
         time = current_datetime.strftime("%H:%M")
         return [date,time]
 
-    def get_data(self,link) -> str:
+    def get_data(self,link) -> list:
         display = Display(visible=0, size=(800, 600))
         display.start()
         driver = webdriver.Chrome(ChromeDriverManager().install())
@@ -36,7 +36,8 @@ class SunCalc:
         content = driver.page_source
         soup = BeautifulSoup(content,"html.parser")
         a = str(soup.find("span", {"id": "azimuth"}))
-        return a
+        b = str(soup.find("span", {"id": "sunhoehe"}))
+        return [a,b]
 
     def get_link(self) -> str:
         datetime = self.get_curr_datetime()
@@ -46,8 +47,9 @@ class SunCalc:
     def get_angle(self) -> float:
         link = self.get_link()
         html_data = self.get_data(link)
-        azmuth = float(html_data[32:37])
-        return azmuth
+        azmuth = float(html_data[0][32:37])
+        altitude = float(html_data[1][33:38])
+        return [azmuth,altitude]
 
 hello = SunCalc(10.35189,123.91335).get_angle()
 print(hello)

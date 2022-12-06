@@ -1,15 +1,19 @@
 from time import sleep
 import RPi.GPIO as GPIO
 
+'''
+self.DIR = 20                # Direction GPIO Pin
+self.STEP = 21               # Step GPIO Pin
+'''
 
 class StepperMotor:
 
-    def __init__(self,offset) -> None:
+    def __init__(self,offset,stepPin,dirPin) -> None:
         self.OFFSET = offset
-        self.DIR = 20                # Direction GPIO Pin
-        self.STEP = 21               # Step GPIO Pin
-        self.SPR = 200               # Steps per Revolution (360 / 1.8)
-        self.curr_angle = 0          # Current position
+        self.DIR = dirPin               # Direction GPIO Pin
+        self.STEP = stepPin             # Step GPIO Pin
+        self.SPR = 200                  # Steps per Revolution (360 / 1.8)
+        self.curr_angle = 0             # Current position
 
     def initialize(self,direction):
         GPIO.setmode(GPIO.BCM)

@@ -6,7 +6,7 @@ import smbus		#import SMBus module of I2C
 from time import sleep  #import sleep
 import math
 
-declination = -0.00669          #define declination angle of location where measurement going to be done
+declination = 8.53              #define declination angle of location where measurement going to be done
 pi          = 3.14159265359     #define pi value
 
 class Magnetometer:
@@ -26,7 +26,8 @@ class Magnetometer:
                 
 
                 self.bus = smbus.SMBus(1) 	# or bus = smbus.SMBus(0) for older version boards
-                self.Device_Address = 0x1e   # HMC5883L magnetometer device address
+                self.Device_Address = 0x1e      # HMC5883L magnetometer device address
+                
 
                 #write to Configuration Register A
                 self.bus.write_byte_data(self.Device_Address, self.Register_A, 0x70)
@@ -51,34 +52,28 @@ class Magnetometer:
                         value = value - 65536
                 return value
 
+        def calculate_heading_angle(self):
+                #Read Accelerometer raw value
+                x = magnetometer.read_raw_data(magnetometer.X_axis_H)
+                z = magnetometer.read_raw_data(magnetometer.Z_axis_H)
+                y = magnetometer.read_raw_data(magnetometer.Y_axis_H)
+
+                heading = math.atan2(y, x) + declination
+                
+                #Due to declination check for >360 degree
+                if(heading > 2*pi):
+                        heading = heading - 2*pi
+
+                #check for sign
+                if(heading < 0):
+                        heading = heading + 2*pi
+
+                #convert into angle
+                heading_angle = int(heading * 180/pi)
+                return heading_angle
+
 
 
 
 
 magnetometer = Magnetometer()
-
-print (" Reading Heading Angle")
-
-while True:
-    
-	
-        #Read Accelerometer raw value
-        x = magnetometer.read_raw_data(magnetometer.X_axis_H)
-        z = magnetometer.read_raw_data(magnetometer.Z_axis_H)
-        y = magnetometer.read_raw_data(magnetometer.Y_axis_H)
-
-        heading = math.atan2(y, x) + declination
-        
-        #Due to declination check for >360 degree
-        if(heading > 2*pi):
-                heading = heading - 2*pi
-
-        #check for sign
-        if(heading < 0):
-                heading = heading + 2*pi
-
-        #convert into angle
-        heading_angle = int(heading * 180/pi)
-
-        print ("Heading Angle = %d°" %heading_angle)
-        sleep(1)

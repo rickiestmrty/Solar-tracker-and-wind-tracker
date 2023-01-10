@@ -12,8 +12,6 @@ pi          = 3.14159265359     #define pi value
 class Magnetometer:
 
         def __init__(self) -> None:
-                
-
                 #some MPU6050 Registers and their Address
                 self.Register_A     = 0              #Address of Configuration register A
                 self.Register_B     = 0x01           #Address of configuration register B
@@ -52,7 +50,7 @@ class Magnetometer:
                         value = value - 65536
                 return value
 
-        def calculate_heading_angle(self):
+        def calculate_heading_angle(self) -> int:
                 #Read Accelerometer raw value
                 x = magnetometer.read_raw_data(magnetometer.X_axis_H)
                 z = magnetometer.read_raw_data(magnetometer.Z_axis_H)

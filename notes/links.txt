@@ -5,3 +5,5 @@ https://www.rototron.info/raspberry-pi-stepper-motor-tutorial/
 https://www.electronicwings.com/raspberry-pi/triple-axis-magnetometer-hmc5883l-interfacing-with-raspberry-pi#:~:text=Magnetometer%20HMC5883L%20is%20used%20for,of%20heading%20of%20the%20device.
 
 https://www.electronicwings.com/raspberry-pi/raspberry-pi-i2c
+
+flowchart link = https://lucid.app/lucidchart/676b38a1-d2ae-4cfa-89d6-7e169d865db2/edit?viewport_loc=-147%2C0%2C1730%2C1218%2C0_0&invitationId=inv_96819679-eff6-4283-843b-9caeeb4c4ca9
